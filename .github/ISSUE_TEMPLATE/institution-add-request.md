@@ -1,7 +1,7 @@
 ---
 name: Institution add request
 about: Institution add request template
-title: Institution add Request
+title: Institution add Request [Institution Name]
 labels: Institution-add-request
 assignees: ''
 
