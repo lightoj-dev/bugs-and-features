@@ -16,7 +16,7 @@ Currently one can host contests for free on LightOJ which doesn’t include any 
 
 ## Legal Notice
 
-If you are using LightOJ’s problem creation and contest hosting tool, you are agreeing with LightOJ’s [terms of service](https://github.com/lightoj-dev/privacy-policy/blob/master/terms-of-service.md), and specially you should not try to exploit the system and use this tool to exploit the users of LightOJ. If you try to do so, we may ban you from the platform or even take legal action. If you are unsure about anything or need to learn more, please reach us over the [facebook messenger](m.me/lightoj) or create a ticket [here](https://github.com/lightoj-dev/bugs-and-features/issues).
+If you are using LightOJ’s problem creation and contest hosting tool, you are agreeing with LightOJ’s [terms of service](https://github.com/lightoj-dev/privacy-policy/blob/master/terms-of-service.md), and specially you should not try to exploit the system and use this tool to exploit the users of LightOJ. You can not create any content on LightOJ which can be used to insult or bully some person or a group. If you try to do so, we may ban you from the platform or even take legal action. If you are unsure about anything or need to learn more, please reach us over the [facebook messenger](m.me/lightoj) or create a ticket [here](https://github.com/lightoj-dev/bugs-and-features/issues).
 
 
 # Adding Problems
