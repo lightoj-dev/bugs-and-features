@@ -11,12 +11,12 @@ To arrange a contest, you need to have a few problems. Problems and contests are
 
 ## Special Notice
 
-Currently one can host contests for free on LightOJ which doesn’t include any live support or assurance that the LightOJ’s server will be available to serve. If you want to host a contest with more than 50 participants, or require special support from the LightOJ admin team, please reach us over [facebook messenger](m.me/lightoj) or create a ticket  [here](https://github.com/lightoj-dev/bugs-and-features/issues).
+Currently one can host contests for free on LightOJ which doesn’t include any live support or assurance that the LightOJ’s server will be available to serve. If you want to host a contest with more than 50 participants, or require special support from the LightOJ admin team, please reach us over [facebook messenger](https://m.me/lightoj) or create a ticket  [here](https://github.com/lightoj-dev/bugs-and-features/issues).
 
 
 ## Terms and Conditions
 
-If you are using LightOJ’s problem creation and contest hosting tool, you are agreeing with LightOJ’s [terms of service](https://github.com/lightoj-dev/privacy-policy/blob/master/terms-of-service.md), and specially you should not try to exploit the system and use this tool to exploit the users of LightOJ. You can not create any content on LightOJ which can be used to insult or bully some person or a group. If you try to do so, we may ban you from the platform or even take legal action. If you are unsure about anything or need to learn more, please reach us over the [facebook messenger](m.me/lightoj) or create a ticket [here](https://github.com/lightoj-dev/bugs-and-features/issues).
+If you are using LightOJ’s problem creation and contest hosting tool, you are agreeing with LightOJ’s [terms of service](https://github.com/lightoj-dev/privacy-policy/blob/master/terms-of-service.md), and specially you should not try to exploit the system and use this tool to exploit the users of LightOJ. You can not create any content on LightOJ which can be used to insult or bully some person or a group. If you try to do so, we may ban you from the platform or even take legal action. If you are unsure about anything or need to learn more, please reach us over the [facebook messenger](https://m.me/lightoj) or create a ticket [here](https://github.com/lightoj-dev/bugs-and-features/issues).
 
 
 # Adding Problems
