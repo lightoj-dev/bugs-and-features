@@ -31,7 +31,7 @@ If you make any changes, make sure to hit the **Save** button.
 4. **Statements:** Add **Description** to state the problem, add **Input** and **Output** to describe the output format. If the problem statement has some theories, you might add notes (optional).
 5. **General:**
     - **Problem title** and **Problem Handle** are there, you might be able to change it if needed.
-    - **Problem Type**c an be Algorithm or Database depending on if the problem is a traditional algorithmic problem, and it’s a sql problem.
+    - **Problem Type** can be Algorithm or Database depending on if the problem is a traditional algorithmic problem, and it’s a sql problem.
     - **Problem Status** can be **in-progress**, once done can be changed to **done**.
     - **Is dataset open** should be set to **NO** (default).
     - **Short Description** can be left blank, or you can add one for future reference (optional).
