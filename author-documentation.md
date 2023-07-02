@@ -18,12 +18,55 @@ Currently one can host contests for free on LightOJ which doesn’t include any 
 
 If you are using LightOJ’s problem creation and contest hosting tool, you are agreeing with LightOJ’s [terms of service](https://github.com/lightoj-dev/privacy-policy/blob/master/terms-of-service.md), and specially you should not try to exploit the system and use this tool to exploit the users of LightOJ. You can not create any content on LightOJ which can be used to insult or bully some person or a group. If you try to do so, we may ban you from the platform or even take legal action. If you are unsure about anything or need to learn more, please reach us over the [facebook messenger](https://m.me/lightoj) or create a ticket [here](https://github.com/lightoj-dev/bugs-and-features/issues).
 
+## Privacy Notice for LightOJ
+
+This Privacy Notice outlines how we collect, use, disclose, and protect personal information on lightoj. We are committed to ensuring the privacy and security of your personal information. Please read this notice carefully to understand our practices regarding your data.
+
+**Collection of Personal Information:**
+
+When you register for the programming competition, we may collect personal information such as your name, email address, username, and country of residence.
+We may also collect additional information related to your participation in the competition, such as your submission history and competition results.
+We collect this information to administer the competition, communicate with participants, and ensure fair competition.
+Use of Personal Information:
+
+We use the personal information provided during registration to verify your eligibility, communicate important updates about the competition, and provide competition-related services.
+Your personal information may also be used to generate anonymous statistics and reports for internal analysis and improvement of our competition platform.
+
+**Disclosure of Personal Information:**
+
+We may share your personal information with trusted third-party service providers who assist us in operating the competition platform, such as hosting providers and email communication platforms. These third parties are obligated to maintain the confidentiality and security of your personal information.
+We may disclose your personal information if required by law or in response to a valid legal request.
+Data Security:
+
+We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
+We restrict access to personal information to authorized personnel who need to know the information for competition administration purposes.
+Data Retention:
+
+We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Notice, or as required by law.
+Your Rights:
+
+You have the right to access, correct, or delete your personal information held by us. Please contact us using the information provided below to exercise these rights.
+You have the right to withdraw your consent for the processing of your personal information. However, this may result in your disqualification from the competition.
+
+**Links to External Websites:**
+
+Our website may contain links to external websites. We are not responsible for the privacy practices or content of these websites. We encourage you to review the privacy policies of any external websites you visit.
+
+**Updates to Privacy Notice:**
+
+We may update this Privacy Notice from time to time to reflect changes in our privacy practices. The updated version will be posted on our website, and the date of the last revision will be indicated.
+Contact Us:
+
+If you have any questions, concerns, or requests regarding this Privacy Notice or the handling of your personal information, please contact us at admin@lightoj.com.
+
+By participating in the programming competition and using our website, you acknowledge that you have read and understood this Privacy Notice and consent to the collection, use, and disclosure of your personal information as described herein.
+
+## Account Deletion
+Please send us an email at admin@lightoj.com if you want us to delete your information from the system. Please note that, this acion is not reversible, i.e once done all your personal information with submissions in the system will be deleted.
 
 # Adding Problems
 
 If you make any changes, make sure to hit the **Save** button.
-
-
 
 1. Go to [https://lightoj.com/author](https://lightoj.com/author) and click **Problems** from the right nav.
 2. On the top right, you can select **Create New Problem**.
