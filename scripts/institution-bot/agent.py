@@ -8,7 +8,7 @@ from tools import get_issue_content, post_comment_to_issue, close_issue, search_
 institution_agent = LlmAgent(
     name="InstitutionBot",
     model=Gemini(
-        model="gemini-flash-latest", # Switching to 1.5-flash which might have more quota
+        model="gemini-2.5-flash-lite", # Using Gemini 2.5 Flash-Lite for optimized latency and volume
         retry_options=types.HttpRetryOptions(
             initial_delay=10.0, # Wait 10 seconds before first retry
             attempts=3          # Try 3 times total

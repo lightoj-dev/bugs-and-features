@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class GeminiClient:
     def __init__(self, api_key: str):
         self.client = genai.Client(api_key=api_key)
-        self.model_name = "gemini-flash-latest"
+        self.model_name = "gemini-2.5-flash-lite"
 
     def analyze_content(self, text: str) -> dict:
         """
