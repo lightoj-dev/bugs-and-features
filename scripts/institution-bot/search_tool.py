@@ -7,25 +7,40 @@ import requests
 def is_valid_image_url(url: str) -> bool:
     """
     Checks if a URL is a valid, accessible image.
+    More permissive to handle sites that block automated requests.
     """
     if not url or not url.startswith("http"):
         return False
     
+    # Common image extensions
+    image_extensions = [".jpg", ".jpeg", ".png", ".svg", ".webp", ".gif"]
+    is_image_ext = any(url.lower().split("?")[0].endswith(ext) for ext in image_extensions)
+
+    headers = {
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+    }
+
     try:
-        # Use HEAD request to be efficient
-        response = requests.head(url, timeout=10, allow_redirects=True)
+        # 1. Try HEAD request
+        response = requests.head(url, headers=headers, timeout=10, allow_redirects=True)
         if response.status_code == 200:
             content_type = response.headers.get("content-type", "").lower()
-            return "image" in content_type or any(url.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".svg", ".webp", ".gif"])
+            return "image" in content_type or is_image_ext
         
-        # Fallback to GET if HEAD is not allowed
-        if response.status_code in [403, 405]:
-            response = requests.get(url, timeout=10, stream=True)
-            return response.status_code == 200 and "image" in response.headers.get("content-type", "").lower()
+        # 2. Try GET request if HEAD failed or was blocked
+        response = requests.get(url, headers=headers, timeout=10, stream=True)
+        if response.status_code == 200:
+            content_type = response.headers.get("content-type", "").lower()
+            return "image" in content_type or is_image_ext
+        
+        # 3. Permissive fallback: If blocked (403) but has image extension, trust it
+        if response.status_code == 403 and is_image_ext:
+            return True
             
         return False
     except Exception:
-        return False
+        # 4. Final fallback: If request fails completely but has image extension, trust it
+        return is_image_ext
 
 def web_search(query: str, max_results: int = 5) -> List[Dict]:
     """
