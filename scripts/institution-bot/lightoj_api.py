@@ -106,19 +106,19 @@ class LightOJAPIClient:
         
         return None
 
-    def create_institution(self, name: str, website: str, logo_url: str, country_code: str):
+    def create_institution(self, name: str, website: str, logo_url: str, country_code: str, slug: str = None):
         """
         Creates a new institution on LightOJ using the verified admin payload.
-        Handle pattern: [name-slug]-[country-iso] (e.g., presidential-school-uz)
+        Handle pattern: [slug]-[country-iso] (e.g., presidential-school-uz)
         """
         url = f"{self.api_base_url}/v1/admin/institutions/"
         
-        # slug: lowercase, replace spaces with hyphens, remove special characters
-        name_slug = "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
-        # Ensure it's not too long before adding suffix
-        name_slug = name_slug[:30].strip("-")
+        if not slug:
+            # Fallback slug generator
+            slug = "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
+            slug = slug[:30].strip("-")
         
-        handle = f"{name_slug}-{country_code.lower()}"
+        handle = f"{slug}-{country_code.lower()}"
         
         payload = {
             "institutionId": "",

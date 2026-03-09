@@ -53,6 +53,7 @@ def run_simple(gemini_client, combined_text, loj_client, gh_client, issue_number
     final_web = verification.get("official_website") or website
     final_logo = verification.get("official_logo_url") or logo_url
     final_country_code = verification.get("country_code") or "BD"
+    final_slug = verification.get("slug")
 
     # --- Logo Validation ---
     logger.info(f"Validating logo URL: {final_logo}")
@@ -66,14 +67,19 @@ def run_simple(gemini_client, combined_text, loj_client, gh_client, issue_number
     existing = loj_client.search_institution(name)
     
     if not existing:
-        logger.info(f"Creating on LightOJ: {name}, {final_web}, {final_logo}, {final_country_code}")
-        result = loj_client.create_institution(name, final_web, final_logo, final_country_code)
+        logger.info(f"Creating on LightOJ: {name}, {final_web}, {final_logo}, {final_country_code}, slug={final_slug}")
+        result = loj_client.create_institution(name, final_web, final_logo, final_country_code, slug=final_slug)
         
         if result.get("status") == "success":
-            # Determine the handle used (logic same as in lightoj_api.py)
-            name_slug = "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
-            name_slug = name_slug[:30].strip("-")
-            handle = f"{name_slug}-{final_country_code.lower()}"
+            # Determine the handle used
+            if final_slug:
+                handle = f"{final_slug}-{final_country_code.lower()}"
+            else:
+                # Fallback matching LightOJAPI logic
+                fallback_slug = "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
+                fallback_slug = fallback_slug[:30].strip("-")
+                handle = f"{fallback_slug}-{final_country_code.lower()}"
+            
             institution_url = f"https://lightoj.com/institutions/{handle}"
 
             # Post success
