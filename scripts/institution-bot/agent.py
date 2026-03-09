@@ -1,19 +1,19 @@
+import os
 from google.adk.agents import LlmAgent
 from google.adk.tools import google_search
-from google.adk.models.google_llm import Gemini
+from google.adk.models.lite_llm import LiteLlm
 from google.genai import types
 from tools import get_issue_content, post_comment_to_issue, close_issue, search_lightoj_institution, create_lightoj_institution
 
-# Define the Institution Bot Agent with Retry Logic for 429 errors
+# Use Groq via LiteLLM as requested for higher throughput
+# Format: "groq/<model-name>"
+groq_model_name = os.getenv("GROQ_MODEL", "groq/llama-3.3-70b-versatile")
+groq_model = LiteLlm(model=groq_model_name)
+
+# Define the Institution Bot Agent
 institution_agent = LlmAgent(
     name="InstitutionBot",
-    model=Gemini(
-        model="gemini-2.5-flash-lite", # Using Gemini 2.5 Flash-Lite for optimized latency and volume
-        retry_options=types.HttpRetryOptions(
-            initial_delay=10.0, # Wait 10 seconds before first retry
-            attempts=3          # Try 3 times total
-        )
-    ),
+    model=groq_model,
     instruction="""
     You are an automated assistant for LightOJ. Your task is to process institution add requests from GitHub issues.
     

@@ -40,6 +40,8 @@ jobs:
           LIGHTOJ_HANDLE: ${{ secrets.LIGHTOJ_HANDLE }}
           LIGHTOJ_PASSWORD: ${{ secrets.LIGHTOJ_PASSWORD }}
           LIGHTOJ_RECAPTCHA_TOKEN: ${{ secrets.LIGHTOJ_RECAPTCHA_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_MODEL: "groq/llama-3.3-70b-versatile"
           GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
           GOOGLE_GENAI_USE_VERTEXAI: FALSE

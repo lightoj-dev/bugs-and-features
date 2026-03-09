@@ -6,7 +6,7 @@ import asyncio
 from dotenv import load_dotenv
 from github_client import GitHubClient
 from lightoj_api import LightOJAPIClient
-from gemini_client import GeminiClient
+from llm_client import LLMClient
 from agent import institution_agent
 from google.adk.runners import InMemoryRunner
 from google.genai import types
@@ -17,14 +17,14 @@ logger = logging.getLogger(__name__)
 
 from search_tool import search_institution_details, is_valid_image_url
 
-def run_simple(gemini_client, combined_text, loj_client, gh_client, issue_number):
+def run_simple(llm_client, combined_text, loj_client, gh_client, issue_number):
     """
-    Simple execution using Tavily for search and Gemini for analysis.
+    Simple execution using Tavily for search and LLM (Groq/Gemini) for analysis.
     """
-    logger.info("Using simple Gemini client + Tavily Search...")
+    logger.info(f"Using simple {llm_client.provider} client + Tavily Search...")
     
     # 1. Parse content
-    info = gemini_client.analyze_content(combined_text)
+    info = llm_client.analyze_content(combined_text)
     name = info.get("Institution Name")
     website = info.get("Website")
     logo_url = info.get("Logo Url")
@@ -38,9 +38,9 @@ def run_simple(gemini_client, combined_text, loj_client, gh_client, issue_number
     logger.info(f"Searching online for: {name} in {country}...")
     search_results = search_institution_details(name, country or "")
 
-    # 3. Verify via Gemini
+    # 3. Verify via LLM
     logger.info(f"Verifying institution details...")
-    verification = gemini_client.verify_institution(name, website, country, search_results)
+    verification = llm_client.verify_institution(name, website, country, search_results)
     
     logger.info("--- Verification Results ---")
     logger.info(json.dumps(verification, indent=2))
@@ -92,48 +92,17 @@ def run_simple(gemini_client, combined_text, loj_client, gh_client, issue_number
         gh_client.comment_on_issue(issue_number, f"'{name}' already exists in our system. Closing.")
         gh_client.close_issue(issue_number)
 
-async def run_with_adk(issue_number):
-    """
-    Runs using the professional ADK agent with configured retry logic.
-    """
-    runner = InMemoryRunner(agent=institution_agent)
-    user_id = "bot_user"
-    session_id = f"issue_{issue_number}"
-    
-    await runner.session_service.create_session(
-        app_name=runner.app_name,
-        user_id=user_id,
-        session_id=session_id
-    )
-    
-    user_prompt = types.Content(
-        role="user",
-        parts=[types.Part(text=f"Please process the institution add request in issue #{issue_number}. Use your tools to gather all necessary info from the issue body and comments.")]
-    )
-    
-    logger.info("Executing ADK Agent...")
-    final_resp = ""
-    async for event in runner.run_async(user_id=user_id, session_id=session_id, new_message=user_prompt):
-        if hasattr(event, 'content') and event.content:
-            if event.is_final_response():
-                final_resp = event.content.parts[0].text
-                logger.info(f"FINAL RESPONSE:\n{final_resp}")
-            elif hasattr(event, 'is_thought') and event.is_thought():
-                logger.info(f"AGENT THOUGHT: {event.content.parts[0].text}")
-            elif hasattr(event, 'is_call') and event.is_call():
-                logger.info(f"TOOL CALL: {event.content.parts[0].text}")
-    return final_resp
-
 async def main():
     load_dotenv()
     
     # Required environment variables
     github_token = os.getenv("GITHUB_TOKEN")
+    groq_api_key = os.getenv("GROQ_API_KEY")
     gemini_api_key = os.getenv("GOOGLE_API_KEY")
     issue_number = os.getenv("ISSUE_NUMBER")
 
-    if not all([github_token, gemini_api_key, issue_number]):
-        logger.error("Missing credentials or ISSUE_NUMBER.")
+    if not all([github_token, issue_number]) or not any([groq_api_key, gemini_api_key]):
+        logger.error("Missing credentials (GITHUB_TOKEN, GROQ_API_KEY/GOOGLE_API_KEY) or ISSUE_NUMBER.")
         sys.exit(1)
 
     gh_client = GitHubClient(github_token)
@@ -142,7 +111,11 @@ async def main():
         os.getenv("LIGHTOJ_HANDLE"), 
         os.getenv("LIGHTOJ_PASSWORD")
     )
-    gemini_client = GeminiClient(gemini_api_key)
+    
+    if groq_api_key:
+        llm_client = LLMClient(groq_api_key, provider="groq")
+    else:
+        llm_client = LLMClient(gemini_api_key, provider="gemini")
 
     try:
         # 0. Login to LightOJ
@@ -158,7 +131,7 @@ async def main():
             combined_text += f"USER {comment.user.login}: {comment.body}\n"
 
         logger.info(f"Running simple mode for issue #{issue_number}")
-        run_simple(gemini_client, combined_text, loj_client, gh_client, int(issue_number))
+        run_simple(llm_client, combined_text, loj_client, gh_client, int(issue_number))
 
     except Exception as e:
         logger.exception(f"Error: {e}")
