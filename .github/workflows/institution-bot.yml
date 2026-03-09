@@ -1,0 +1,48 @@
+name: Institution Bot
+
+on:
+  issues:
+    types: [opened, edited]
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'The issue number to process'
+        required: true
+        type: string
+
+jobs:
+  institution-bot:
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' || 
+      contains(github.event.issue.labels.*.name, 'Institution-add-request')
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r scripts/institution-bot/requirements.txt
+
+      - name: Run Institution Bot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LIGHTOJ_HANDLE: ${{ secrets.LIGHTOJ_HANDLE }}
+          LIGHTOJ_PASSWORD: ${{ secrets.LIGHTOJ_PASSWORD }}
+          LIGHTOJ_RECAPTCHA_TOKEN: ${{ secrets.LIGHTOJ_RECAPTCHA_TOKEN }}
+          GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          GOOGLE_GENAI_USE_VERTEXAI: FALSE
+          ISSUE_NUMBER: ${{ github.event.inputs.issue_number || github.event.issue.number }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: python scripts/institution-bot/main.py
