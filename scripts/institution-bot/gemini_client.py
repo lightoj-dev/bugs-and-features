@@ -58,7 +58,7 @@ class GeminiClient:
         2. Find the correct official website if the proposed one is wrong or missing.
         3. Find a direct URL to an official logo image. Check the 'FOUND IMAGE URLS' section carefully for the best candidate. It should be a direct link to an image file (PNG, JPG, SVG).
         4. CRITICAL: Identify the ISO 3166-1 alpha-2 country code (e.g., "BD" for Bangladesh, "IN" for India, "US" for USA).
-        5. Generate a concise, readable URL slug for the institution name (e.g., "daffodil-university" for "Daffodil International University", "mit" for "Massachusetts Institute of Technology"). Do not include the country in this slug.
+        5. Generate the SHORTEST POSSIBLE readable URL slug for the institution name. Prefer well-known abbreviations or acronyms (e.g., "diu" for "Daffodil International University", "mit" for "Massachusetts Institute of Technology", "rmu" for "Rabindra Maitree University"). Do not include the country in this slug.
         
         Return in JSON format ONLY:
         {{

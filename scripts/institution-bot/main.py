@@ -71,14 +71,11 @@ def run_simple(gemini_client, combined_text, loj_client, gh_client, issue_number
         result = loj_client.create_institution(name, final_web, final_logo, final_country_code, slug=final_slug)
         
         if result.get("status") == "success":
-            # Determine the handle used
-            if final_slug:
-                handle = f"{final_slug}-{final_country_code.lower()}"
-            else:
-                # Fallback matching LightOJAPI logic
-                fallback_slug = "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
-                fallback_slug = fallback_slug[:30].strip("-")
-                handle = f"{fallback_slug}-{final_country_code.lower()}"
+            # Determine the handle used (logic same as in lightoj_api.py)
+            slug = final_slug or "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
+            suffix = f"-{final_country_code.lower()}"
+            max_slug_len = 50 - len(suffix)
+            handle = f"{slug[:max_slug_len].strip('-')}{suffix}"
             
             institution_url = f"https://lightoj.com/institutions/{handle}"
 

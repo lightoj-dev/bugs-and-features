@@ -116,9 +116,11 @@ class LightOJAPIClient:
         if not slug:
             # Fallback slug generator
             slug = "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
-            slug = slug[:30].strip("-")
         
-        handle = f"{slug}-{country_code.lower()}"
+        suffix = f"-{country_code.lower()}"
+        # Enforce 50 char limit total: slug must fit within 50 - len(suffix)
+        max_slug_len = 50 - len(suffix)
+        handle = f"{slug[:max_slug_len].strip('-')}{suffix}"
         
         payload = {
             "institutionId": "",
