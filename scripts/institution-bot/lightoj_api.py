@@ -65,33 +65,46 @@ class LightOJAPIClient:
 
     def search_institution(self, name: str):
         """
-        Searches if the institution already exists in the admin list.
+        Searches if the institution already exists in the admin list by iterating through all pages.
         """
-        url = f"{self.api_base_url}/v1/admin/institutions/?page=1&perPage=100"
-        try:
-            logger.info(f"Fetching institution list to search for '{name}'...")
-            response = self.session.get(url, headers=self.headers)
-            if response.status_code == 200:
+        page = 1
+        per_page = 100
+        
+        while True:
+            url = f"{self.api_base_url}/v1/admin/institutions/?page={page}&perPage={per_page}"
+            try:
+                logger.info(f"Fetching institution list (Page {page}) to search for '{name}'...")
+                response = self.session.get(url, headers=self.headers)
+                
+                if response.status_code != 200:
+                    logger.error(f"Failed to fetch institutions on page {page} ({response.status_code}): {response.text}")
+                    break
+
                 data = response.json()
-                # The data structure might vary, usually it's a list under 'data' or 'institutions'
-                # Let's assume standard pagination structure
+                # Handle different possible JSON structures
                 institutions = data.get("data", [])
                 if not isinstance(institutions, list):
-                    # Fallback if the whole response is the list
                     institutions = data if isinstance(data, list) else []
 
+                if not institutions:
+                    logger.info(f"Reached end of institution list at page {page}.")
+                    break
+
                 for inst in institutions:
-                    if inst.get("name", "").lower() == name.lower():
+                    if inst.get("institutionNameStr", "").lower() == name.lower() or inst.get("name", "").lower() == name.lower():
                         logger.info(f"Found existing institution: {name}")
                         return inst
                 
-                return None
-            else:
-                logger.error(f"Failed to fetch institutions ({response.status_code}): {response.text}")
-                return None
-        except Exception as e:
-            logger.exception(f"Error searching institution: {e}")
-            return None
+                # If we got fewer results than per_page, we are likely at the last page
+                if len(institutions) < per_page:
+                    break
+                
+                page += 1
+            except Exception as e:
+                logger.exception(f"Error searching institution on page {page}: {e}")
+                break
+        
+        return None
 
     def create_institution(self, name: str, website: str, logo_url: str, country_code: str):
         """
