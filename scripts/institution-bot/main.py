@@ -70,8 +70,10 @@ def run_simple(gemini_client, combined_text, loj_client, gh_client, issue_number
         result = loj_client.create_institution(name, final_web, final_logo, final_country_code)
         
         if result.get("status") == "success":
-            # Determine the handle used (either from response or generated)
-            handle = name.lower().replace(" ", "-")[:20]
+            # Determine the handle used (logic same as in lightoj_api.py)
+            name_slug = "".join(c if c.isalnum() or c == " " else "" for c in name).lower().replace(" ", "-")
+            name_slug = name_slug[:30].strip("-")
+            handle = f"{name_slug}-{final_country_code.lower()}"
             institution_url = f"https://lightoj.com/institutions/{handle}"
 
             # Post success
