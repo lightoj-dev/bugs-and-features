@@ -7,8 +7,7 @@ from tools import get_issue_content, post_comment_to_issue, close_issue, search_
 
 # Use Groq via LiteLLM as requested for higher throughput
 # Format: "groq/<model-name>"
-groq_model_name = os.getenv("GROQ_MODEL", "groq/llama-3.3-70b-versatile")
-groq_model = LiteLlm(model=groq_model_name)
+groq_model = LiteLlm(model="groq/llama-3.3-70b-versatile")
 
 # Define the Institution Bot Agent
 institution_agent = LlmAgent(

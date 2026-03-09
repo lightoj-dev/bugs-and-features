@@ -9,10 +9,10 @@ class LLMClient:
     def __init__(self, api_key: str = None, provider: str = "groq"):
         self.provider = provider
         if provider == "groq":
-            self.model_name = os.getenv("GROQ_MODEL", "groq/llama-3.3-70b-versatile")
+            self.model_name = "groq/llama-3.3-70b-versatile"
             self.api_key = api_key or os.getenv("GROQ_API_KEY")
         else:
-            self.model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+            self.model_name = "gemini-2.5-flash-lite"
             self.api_key = api_key or os.getenv("GOOGLE_API_KEY")
 
     def _call_llm(self, prompt: str) -> str:
